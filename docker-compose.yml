@@ -1,0 +1,19 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  backend:
+    build: backend
+    environment: 
+      - VIRTUAL_HOST=backend.local
+
+  frontend:
+    build: frontend
+    environment: 
+      - VIRTUAL_HOST=frontend.local
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default_location:/etc/nginx/vhost.d/default_location
+      - /var/run/docker.sock:/tmp/docker.sock:ro
